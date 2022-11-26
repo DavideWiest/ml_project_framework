@@ -27,17 +27,18 @@ EPOCHS = mconfig["epochs"]
 SAVE_EACH = mconfig["save_each"]
 EARLY_STOP_EPOCH = mconfig["early_stop_epoch"]
 
-model = BasicModel(mconfig["input_features"], mconfig["output_features"], mconfig["hidden_units"]).to(device)
-
-loss_fn = nn.CrossEntropyLoss()
-
-optimizer = torch.optim.SGD(model.parameters(), lr=mconfig["lr"]).to(device)
-
 # 1. Instantiate Model
 # 2. Define Loss function and optimizer
 # 3. Get data (more to device)
 # 4. use train_full_fn
 # 5. analyze?
+
+model = BasicModel(mconfig["input_features"], mconfig["output_features"], mconfig["hidden_units"]).to(device)
+
+loss_fn = nn.L1Loss().to(device)
+
+optimizer = torch.optim.SGD(model.parameters(), lr=mconfig["lr"])
+
 
 if __name__ == '__main__':
     ...
