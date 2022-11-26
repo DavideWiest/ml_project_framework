@@ -12,6 +12,9 @@
         "data_dir": "data",
         "logs_dir": "logs"
     },
+    "computation": {
+        "batch_size": 32
+    },
     "hyparamoptim": {
         "epochs": 5
     }
