@@ -5,7 +5,9 @@
         "hidden_layers": 2,
         "input_features": 1,
         "output_features": 1,
-        "hidden_units": 40
+        "hidden_units": 40,
+        "save_each": 20,
+        "early_stop_epoch": 50
     },
     "structure": {
         "models_dir": "models",
