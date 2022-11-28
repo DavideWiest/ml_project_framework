@@ -26,6 +26,9 @@ with open(CONFIG_JSON_PATH, "r", encoding="utf-8") as f:
 EPOCHS = mconfig["epochs"]
 SAVE_EACH = mconfig["save_each"]
 EARLY_STOP_EPOCH = mconfig["early_stop_epoch"]
+COMPARE_SAVED_METRIC = mconfig["compare_saved_metric"]
+BATCH_SIZE = config["computation"]["batch_size"]
+
 
 # 1. Instantiate Model
 # 2. Define Loss function and optimizer
