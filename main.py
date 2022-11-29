@@ -45,24 +45,23 @@ model = BasicModel(mconfig["input_features"], mconfig["output_features"], mconfi
 modelname = model.__class__.__name__
 # modelname = ""
 
-mm = ModelManager(logging)
-model_statedict, path = mm.load(modelname, load_best_metric=COMPARE_SAVED_METRIC)
-
-if model_statedict != None:
-    try:
-        model.load_state_dict(model_statedict)
-        logging.info(f"Loaded previous model (path: {path})")
-    except:
-        logging.info(f"Failed to load previous model (likely different layer and feature structure) (path: {path})")
-else:
-    logging.info(f"Could not load any previous model for {modelname}")
-
-
 loss_fn = nn.L1Loss().to(device)
 
 optimizer = torch.optim.SGD(model.parameters(), lr=mconfig["lr"])
 
 
 if __name__ == '__main__':
+    mm = ModelManager(logging)
+    model_statedict, path = mm.load(modelname, load_best_metric=COMPARE_SAVED_METRIC)
+
+    if model_statedict != None:
+        try:
+            model.load_state_dict(model_statedict)
+            logging.info(f"Loaded previous model (path: {path})")
+        except:
+            logging.info(f"Failed to load previous model (likely different layer and feature structure) (path: {path})")
+    else:
+        logging.info(f"Could not load any previous model for {modelname}")
+
     ...
 
