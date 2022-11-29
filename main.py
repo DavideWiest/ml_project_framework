@@ -46,11 +46,14 @@ modelname = model.__class__.__name__
 # modelname = ""
 
 mm = ModelManager(logging)
-model_statedict, path = mm.load(modelname, load_best_metric="loss")
+model_statedict, path = mm.load(modelname, load_best_metric=COMPARE_SAVED_METRIC)
 
 if model_statedict != None:
-    model.load_state_dict(model_statedict)
-    logging.info(f"Loaded previous model (path: {path})")
+    try:
+        model.load_state_dict(model_statedict)
+        logging.info(f"Loaded previous model (path: {path})")
+    except:
+        logging.info(f"Failed to load previous model (likely different layer and feature structure) (path: {path})")
 else:
     logging.info(f"Could not load any previous model for {modelname}")
 
