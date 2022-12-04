@@ -10,6 +10,17 @@
         "early_stop_epoch": 50,
         "compare_saved_metric": "loss"
     },
+    "other_model": {
+        "epochs": 50,
+        "lr": 0.025,
+        "hidden_layers": 3,
+        "input_features": 2,
+        "output_features": 2,
+        "hidden_units": 40,
+        "save_each": 20,
+        "early_stop_epoch": 10,
+        "compare_saved_metric": "loss"
+    },
     "structure": {
         "models_dir": "models",
         "data_dir": "data",
