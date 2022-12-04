@@ -7,13 +7,10 @@ from model import BasicModel
 
 
 class PredictorInterface():
-    def __init__(self, model_class, data_mode="normal", model_feature_param="model"):
+    def __init__(self, model_class, data_mode="normal", model_feature_param="model", model_subdir=None):
         self.load_data_normal(data_mode)
-        # if there exist two variants of the model
-        # elif data_mode == "simple":
-        #     self.load_data_simple()
 
-        self.initialize_model(model_class, model_feature_param)
+        self.initialize_model(model_class, model_feature_param, model_subdir)
 
     def _get_feature_list_config(self, filename="config.json", key="model"):
         BASE_DIR = Path(__file__).resolve().parent
@@ -33,7 +30,7 @@ class PredictorInterface():
             self.exampledict = {line.split(",")[2]: line.split(",")[1] for line in examplefile[1:]}
         
         
-    def initialize_model(self, model_class, model_feature_param="model"):
+    def initialize_model(self, model_class, model_feature_param="model", model_subdir=None):
         if isinstance(model_feature_param, str):
         
             features_out = self._get_feature_list_config("config.json", model_feature_param)
@@ -47,7 +44,12 @@ class PredictorInterface():
         self.mm = ModelManager(logging)
 
         self.model = model_class(input_features, output_features, hidden_units).to(self.device)
-        self.statedict, path = self.mm.load(name=self.model.__class__.__name__, load_best_metric="loss")
+        self.statedict, path = self.mm.load(name=self.model.__class__.__name__, load_best_metric="loss", subdir=model_subdir)
+        
+        if self.statedict != None:
+            self.model.load_state_dict(self.statedict)
+        else:
+            logging.info("Warning: No saved state dicts found")
 
     def predict(self, filepath="predict_params.json", do_print=True):
         with open(filepath, "r", encoding="utf-8") as f:
